@@ -11,9 +11,33 @@ const signup = catchAsync(async (req, res, next) => {
 
     const user = await User.create({ fullname, email, password });
 
-    res.status(201).json(user);
+    res.status(201).json({
+        message: "User registered succesfully!",
+        status: "succes"
+    });
 });
 
-module.exports = { signup };
+// Login function
+const login = catchAsync(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({email});
+
+    if(!user) {
+        return next(new AppError("Credentials is incorrect!", 401));
+    }
+
+    const isPassValid = await user.comparePassword(password);
+
+    if(!isPassValid) {
+        return next(new AppError("Credentials is incorrect!", 401));
+    }
+
+    user.password = undefined;
+
+    res.status(200).json(user);
+});
+
+module.exports = { signup, login };
 
 
