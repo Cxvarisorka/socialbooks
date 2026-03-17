@@ -1,5 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const path = require('path');
 
 dotenv.config();
 
@@ -16,9 +19,22 @@ const connectDB = require('./config/mongo.config');
 
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
+
+app.use(cookieParser());
+
 // Helper middlewares
 // To parse incoming JSON body
 app.use(express.json());
+
+console.log(__dirname)
+
+// We use static method because we need to make our posts folder public.
+// path: /filename
+app.use(express.static(path.join(__dirname, "/images/posts")));
 
 // Routers
 app.use('/api/auth', authRouter);

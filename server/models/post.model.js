@@ -9,10 +9,13 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: [true, "Post content is required!"]
     },
-    userId: {
+    user: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: [true, "User id is required!"]
+    },
+    postImage: {
+        type: String
     }
 }, {
     timestamps: true
