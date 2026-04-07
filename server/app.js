@@ -12,10 +12,11 @@ const globalErrorHandler = require('./controllers/error.controller');
 // Routers
 const authRouter = require('./routers/auth.router');
 const postsRouter = require('./routers/post.router');
+const friendRequestRouter = require('./routers/friendRequest.router');
 
 // Configs
 const connectDB = require('./config/mongo.config');
-
+const friendshipRouter = require('./routers/friendship.router');
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.use(express.static(path.join(__dirname, "/images/posts")));
 // Routers
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
+app.use('/api/friend-requests', friendRequestRouter);
+app.use('/api/friendships', friendshipRouter);
 
 // Global Error handler
 app.use(globalErrorHandler);
